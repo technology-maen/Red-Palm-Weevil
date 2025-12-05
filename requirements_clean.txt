@@ -1,0 +1,12 @@
+requests
+beautifulsoup4
+pandas
+ultralytics
+opencv-python-headless
+pillow
+piexif
+numpy
+streamlit
+
+# Note: For some PyTorch-based models (MiDaS, ultralytics models) install the
+# appropriate torch and torchvision wheels for your system from https://pytorch.org/
