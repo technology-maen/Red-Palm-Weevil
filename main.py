@@ -40,6 +40,45 @@ def img_to_bytes_bgr(img_bgr: np.ndarray) -> bytes:
     return buf.tobytes()
 
 
+def calculate_hole_distances(holes):
+    """
+    Calculate distances between all pairs of holes and return sorted by distance.
+    holes: list of dicts containing 'center' (x,y)
+    Returns list of dicts with 'hole1','hole2','distance'
+    """
+    if len(holes) < 2:
+        return []
+
+    distances = []
+    for i in range(len(holes)):
+        for j in range(i + 1, len(holes)):
+            c1 = holes[i]['center']
+            c2 = holes[j]['center']
+            distance = np.sqrt((c2[0] - c1[0]) ** 2 + (c2[1] - c1[1]) ** 2)
+            distances.append({'hole1': i + 1, 'hole2': j + 1, 'distance': float(distance)})
+
+    distances.sort(key=lambda x: x['distance'])
+    return distances
+
+
+def get_distance_statistics(distances):
+    """
+    Return min, max, mean, median, std, count for distances list
+    """
+    if not distances:
+        return None
+    vals = [d['distance'] for d in distances]
+    stats = {
+        'min': float(np.min(vals)),
+        'max': float(np.max(vals)),
+        'mean': float(np.mean(vals)),
+        'median': float(np.median(vals)),
+        'std': float(np.std(vals)),
+        'count': len(vals),
+    }
+    return stats
+
+
 def main():
     st.set_page_config(page_title="Red Palm Weevil — Assessment", layout="wide")
     st.title("Red Palm Weevil — Quick Assessment (Audio + Image)")
@@ -161,6 +200,17 @@ def main():
         st.write(f"Holes found: {len(detected_holes)}")
         if len(detected_holes) > 0:
             st.write(detected_holes)
+
+            # Calculate pairwise distances and show statistics
+            distances = calculate_hole_distances(detected_holes)
+            stats = get_distance_statistics(distances)
+            if distances:
+                st.write("#### Distances (pixels) — sorted by proximity")
+                st.table([{ 'Priority': i+1, 'Holes': f"H{d['hole1']} ↔ H{d['hole2']}", 'Distance(px)': round(d['distance'],2)} for i,d in enumerate(distances)])
+
+            if stats:
+                st.write("#### Distance statistics")
+                st.write(f"Pairs: {stats['count']}, min: {stats['min']:.2f}px, max: {stats['max']:.2f}px, mean: {stats['mean']:.2f}px, median: {stats['median']:.2f}px, std: {stats['std']:.2f}px")
 
         if annotated_img_bytes is not None:
             st.write("### Annotated image")
