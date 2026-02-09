@@ -39,3 +39,33 @@ Notes and next improvements
 - Consider adding unit tests for `sound` (mocking audio) and expanding integration tests.
 
 License: MIT-style (modify as needed)
+
+---
+## Building the LaTeX paper
+
+This repository contains `paper.latex`. Use the provided Makefile or build script to compile it locally.
+
+Prerequisites (Debian/Ubuntu):
+
+```bash
+sudo apt update
+sudo apt install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-pictures
+# For XeLaTeX/pdfLaTeX variants, you may also want:
+sudo apt install -y texlive-xetex
+```
+
+Quick build (recommended):
+
+```bash
+make build
+# or
+./build.sh
+```
+
+Clean auxiliary files:
+
+```bash
+make clean
+```
+
+If you prefer containers, use an image that includes TeX Live (for example `blang/latex`), or install a minimal TeX distribution such as TinyTeX.

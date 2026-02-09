@@ -1,1 +1,14 @@
 sounds/
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+# keep PDFs under version control if you want; uncomment if you prefer to ignore them
+# *.pdf
