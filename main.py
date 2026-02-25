@@ -45,7 +45,7 @@ def img_to_bytes_bgr(img_bgr: np.ndarray) -> bytes:
 
 def calculate_hole_distances(holes):
     """
-    Calculate distances between all pairs oبكرا هيكون فيه ايڤينت يا شباب من اول الساعه ٧ وهيبقي صعب نعمل التمرين عشان المكان هيكون زحمة شوفو لو حابين نعمله بدري يا اما يوم تانيf holes and return sorted by distance.
+    Calculate distances between all pairs of holes and return sorted by distance.
     holes: list of dicts containing 'center' (x,y)
     Returns list of dicts with 'hole1','hole2','distance'
     """
